@@ -1,7 +1,34 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { Button, ButtonSection } from '../../components/Button';
+
 import myDb from '../../db/db';
 import sync from '../../db/sync';
+
+const Table = styled.table`
+  border-collapse: collapse;
+  width: 100%;
+`;
+
+Table.Td = styled.td`
+  border: 1px solid #ddd;
+  padding: 8px;
+`
+
+Table.Tr = styled.tr`
+  tr:nth-child(even){background-color: #f2f2f2;}
+`;
+
+Table.Th = styled.th`
+  border: 1px solid #ddd;
+  padding: 8px;
+   padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+`
 
 function ProducerList() {
   const navigate = useNavigate();
@@ -67,32 +94,33 @@ function ProducerList() {
 
   return (
     <div>
-      <table>
+      <Table>
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-          </tr>
+          <Table.Tr>
+            <Table.Th>Name</Table.Th>
+            <Table.Th>Description</Table.Th>
+          </Table.Tr>
         </thead>
         <tbody>
           
             {
               producers?.map(producer => (
-                <tr>
-                  <td>{producer.id}</td>
-                  <td>{producer.name}</td>
-                  <td>{producer.description}</td>
-                </tr>
+                <Table.Tr>
+                  <Table.Td>{producer.name}</Table.Td>
+                  <Table.Td>{producer.description}</Table.Td>
+                </Table.Tr>
               ))
             }
            
         </tbody>
-      </table>
-      <button onClick={() => {
-        navigate('/producer-form');
-      }}>Insert</button>
-      <button onClick={syncProducers}>Sync</button>
+      </Table>
+      <ButtonSection>
+        <Button onClick={() => {
+          navigate('/producer-form');
+        }}>Insert</Button>
+        <Button onClick={syncProducers}>Sync</Button>
+      </ButtonSection>
+     
 
       {notSync && <div>
         <p>Not sync</p>
